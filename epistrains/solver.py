@@ -18,7 +18,7 @@ class Solver:
         self.solution = []
         self.strains = strains
 
-    def solver(self):
+    def solve(self):
         """Solve the differential equations
         """
         t_eval = np.linspace(0, self.time, int(self.time*10000))
