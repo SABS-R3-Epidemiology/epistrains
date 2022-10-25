@@ -10,5 +10,5 @@ class PopulationTest(unittest.TestCase):
         """
         Tests Population creation.
         """
-        p = es.Population()
+        p = es.Population(100, 1, 1, 2)
         pass
