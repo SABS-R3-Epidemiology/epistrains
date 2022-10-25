@@ -7,5 +7,3 @@ python:
       path: .
       extra_requirements:
         - extra
-    - method: pip
-      path: package
