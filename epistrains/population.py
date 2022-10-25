@@ -22,7 +22,7 @@ class Population:
         self.birth_a = a
         self.birth_k = k
 
-        def birth_rate(self, size):
+        def birth_rate(size):
             """Define exponential birth rate function
             Parameters
             ----------
@@ -35,4 +35,4 @@ class Population:
         if birth_function is None:
             self.birth_function = birth_rate
         else:
-            self.birth_funcction = birth_function
+            self.birth_function = birth_function
