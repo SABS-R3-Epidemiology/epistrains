@@ -64,8 +64,6 @@ class Solver:
         n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
         y0 = np.array([n_sus, 0.0] + [strain.infected for strain in self.strains])
         sol = scipy.integrate.solve_ivp(
-            # finish by Nathan's fun name
-            # fun=lambda t, y: self._rhs(t, y),
             fun=lambda t, y: self._rhs(y),
             t_span=[t_eval[0], t_eval[-1]],
             y0=y0,
