@@ -32,4 +32,3 @@ class SolverTest(unittest.TestCase):
     #    #Include len(strains) = 3
     #    self.assertEqual(5, len(s.solution))
 
-
