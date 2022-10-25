@@ -16,5 +16,5 @@ class SolverTest(unittest.TestCase):
     def test_solver(self):
         s = es.Solver(strains = [es.Strain(0.1, 0.2, 0.3), es.Strain(0.1, 0.2, 0.3)])
         self.assertEqual(len(s.solution), 0)
-        # s.solver()
+        # s.solve()
         # self.assertEqual(len(s.solution), 1)
