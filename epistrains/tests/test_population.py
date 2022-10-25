@@ -19,5 +19,5 @@ class PopulationTest(unittest.TestCase):
         Tests birth function can be specified
         """
         p = es.Population(1, birth_function=5)
-        birth = p.birth_function()
+        birth = p.birth_function
         self.assertEqual(5, birth)
