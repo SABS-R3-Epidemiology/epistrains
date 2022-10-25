@@ -10,13 +10,28 @@ class SolverTest(unittest.TestCase):
         """
         Tests Solver creation.
         """
-        s = es.Solver(strains=[es.Strain(0.1, 0.2, 0.3),
-                               es.Strain(0.1, 0.2, 0.3)])
-        pass
+        s1 = es.Strain(0.1, 0.2, 0.3, 10)
+        s2 = es.Strain(0.1, 0.2, 0.6, 5)
+        br = es.make_br(2.0, 3.0)
+        p = es.Population(0.5, 100, br)
+        s = es.Solver(strains=[s1, s2], pop=p)
+        self.assertEqual(s.solution, None)
 
-    def test_solver(self):
-        s = es.Solver(strains=[es.Strain(0.1, 0.2, 0.3),
-                      es.Strain(0.1, 0.2, 0.3)])
-        self.assertEqual(len(s.solution), 0)
-        # s.solve()
-        # self.assertEqual(len(s.solution), 1)
+    def test_1_strain(self):
+        s1 = es.Strain(0.1, 0.2, 0.3, 10)
+        br = es.make_br(2.0, 3.0)
+        p = es.Population(0.5, 100, br)
+        s = es.Solver(strains=[s1], pop=p)
+        s.solve()
+        self.assertEqual(3, len(s.solution.y))
+
+    def test_multiple_strain(self):
+        s1 = es.Strain(0.1, 0.2, 0.3, 10)
+        s2 = es.Strain(0.1, 0.2, 0.6, 5)
+        s3 = es.Strain(0.1, 0.2, 0.6, 1)
+        br = es.make_br(2.0, 3.0)
+        p = es.Population(0.5, 100, br)
+        s = es.Solver(strains=[s1, s2, s3], pop=p)
+        s.solve()
+        self.assertEqual(5, len(s.solution.y))
+
