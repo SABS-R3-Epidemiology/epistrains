@@ -20,7 +20,7 @@ class Solver:
         self.pop = pop
         self.strains = strains
         self.solution = None
-        if self.n <= 0:
+        if self.n == 0:
             raise ValueError('Number of strains must be positive')
         self.strains = strains
         self.alpha = []

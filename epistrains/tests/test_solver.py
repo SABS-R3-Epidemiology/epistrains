@@ -1,5 +1,6 @@
 import unittest
 import epistrains as es
+import pytest
 
 
 class SolverTest(unittest.TestCase):
@@ -16,6 +17,12 @@ class SolverTest(unittest.TestCase):
         p = es.Population(0.5, 100, br)
         s = es.Solver(strains=[s1, s2], pop=p)
         self.assertEqual(s.solution, None)
+
+    def test_0_strains(self):
+        br = es.make_br(2.0, 3.0)
+        p = es.Population(0.5, 100, br)
+        with pytest.raises(ValueError):
+            s = es.Solver(strains=[], pop=p)
 
     def test_1_strain(self):
         s1 = es.Strain(0.1, 0.2, 0.3, 10)
