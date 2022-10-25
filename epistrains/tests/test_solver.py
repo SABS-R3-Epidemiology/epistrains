@@ -10,5 +10,7 @@ class SolverTest(unittest.TestCase):
         """
         Tests Solver creation.
         """
-        s = es.Solver()
-        pass
+        s1 = es.Strain(0.1, 0.2, 0.3)
+        s2 = es.Strain(0.1, 0.2, 0.6)
+        s = es.Solver(strains=[s1, s2])
+        self.assertEqual(s.solution, None)
