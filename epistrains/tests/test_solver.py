@@ -24,7 +24,7 @@ class SolverTest(unittest.TestCase):
         p = es.Population(0.5, 0, br)
         s = es.Solver(strains=[s1], pop=p)
         s.solve()
-        self.assertEqual(3, len(s.solution))
+        self.assertEqual(3, len(s.solution.y))
 
     #def test_multiple_strain(self):
     #    s = es.Solver(strains,pop)

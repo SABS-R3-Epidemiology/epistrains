@@ -34,27 +34,27 @@ class Solver:
         self.b = pop.death_rate
         self.func_birth = pop.birth_rate
 
-    def ODE_S(self, y, b):
+    def _ODE_S(self, y, b):
         sum_alpha = sum(strain.alpha for strain in self.strains)
-        dS_dt = self.func_birth(sum(y)) - sum_alpha - b*y[0]
+        dS_dt = self.func_birth(int(sum(y))) - sum_alpha - b*y[0]
         return dS_dt
 
-    def ODE_I_j(self, y, b, j):
+    def _ODE_I_j(self, y, b, j):
         dI_j_dt = y[j]*(self.beta[j-1]*y[0] - (b + self.nu[j-1] + self.alpha[j-1]))
         return dI_j_dt
 
-    def ODE_R(self, y, b):
+    def _ODE_R(self, y, b):
         sum_nu = 0
         for i in range(1,self.n+1):
             sum_nu += self.nu[i-1]*y[i]
         dR_dt = -b * y[-1] + sum_nu
         return dR_dt
 
-    def rhs(self,y):
-        dy = [self.ODE_S(y, self.b)]
+    def _rhs(self, y):
+        dy = [self._ODE_S(y, self.b)]
         for i in range (1,self.n+1):
-            dy.append(self.ODE_I_j(y, self.b, i))
-        dy.append(self.ODE_R(y, self.b))
+            dy.append(self._ODE_I_j(y, self.b, i))
+        dy.append(self._ODE_R(y, self.b))
         return dy
 
     def solve(self):
@@ -64,8 +64,9 @@ class Solver:
         y0 = np.array([0.0, 0.0] + [0.0 for _ in self.strains])
         sol = scipy.integrate.solve_ivp(
             # finish by Nathan's fun name
-            fun=lambda t, y: self.ODE(t, y, ),
-            t_span=[self.t_eval[0], self.t_eval[-1]],
+            # fun=lambda t, y: self._rhs(t, y),
+            fun=lambda t, y: self._rhs(y),
+            t_span=[t_eval[0], t_eval[-1]],
             y0=y0,
             t_eval=t_eval,
             max_step=0.001
