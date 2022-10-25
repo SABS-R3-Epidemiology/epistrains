@@ -1,5 +1,0 @@
-{
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.linting.flake8Path": "/opt/anaconda3/bin/flake8"
-}
