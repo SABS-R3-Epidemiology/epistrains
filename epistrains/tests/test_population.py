@@ -1,6 +1,5 @@
 import unittest
 import epistrains as es
-from es import population
 
 
 class PopulationTest(unittest.TestCase):
