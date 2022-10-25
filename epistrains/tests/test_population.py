@@ -10,6 +10,7 @@ class PopulationTest(unittest.TestCase):
         """
         Tests birth function is created with make_br()
         """
+        from population import make_br
         br = es.make_br(2.0, 3.0)
         p = es.Population(0.5, 0, br)
         birth = p.birth_rate(0)
@@ -41,9 +42,9 @@ class PopulationTest(unittest.TestCase):
         """
         Tests type error raised for inputs to make_br()
         """
-        with self.assertRasies(TypeError):
+        with self.assertRaises(TypeError):
             es.make_br(2, 3.0)
-        with self.assertRasies(TypeError):
+        with self.assertRaises(TypeError):
             es.make_br(2.0, 3)
 
     def test_br_pop_size(self):
