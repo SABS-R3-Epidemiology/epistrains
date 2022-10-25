@@ -63,8 +63,7 @@ setup(
         # Dependencies go here!
         'numpy',
         'matplotlib',
-        'scipy',
-        'pytest'
+        'scipy'
     ],
     extras_require={
         'docs': [
@@ -76,6 +75,7 @@ setup(
         'dev': [
             # Flake8 for code style checking
             'flake8>=3',
+            'pytest'
         ],
     },
 )
