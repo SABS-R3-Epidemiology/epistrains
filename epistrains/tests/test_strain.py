@@ -1,5 +1,5 @@
 import unittest
-import .epistrains as es
+import epistrains as es
 
 
 class StrainTest(unittest.TestCase):
