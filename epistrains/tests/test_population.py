@@ -1,5 +1,6 @@
 import unittest
 import epistrains as es
+from es import population
 
 
 class PopulationTest(unittest.TestCase):
@@ -10,7 +11,7 @@ class PopulationTest(unittest.TestCase):
         """
         Tests birth function is created with make_br()
         """
-        from es.population import make_br
+        from population import make_br
         br = make_br(2.0, 3.0)
         p = es.Population(0.5, 0, br)
         birth = p.birth_rate(0)
@@ -42,9 +43,9 @@ class PopulationTest(unittest.TestCase):
         """
         Tests type error raised for inputs to make_br()
         """
-        from es.population import make_br
+        from population import make_br
         with self.assertRaises(TypeError):
-            es.make_br(2, 3.0)
+            make_br(2, 3.0)
         with self.assertRaises(TypeError):
             es.make_br(2.0, 3)
 
@@ -52,8 +53,8 @@ class PopulationTest(unittest.TestCase):
         """
         Tests type error raised when updating birth rate
         """
-        from es.population import make_br
-        br = es.make_br(2.0, 3.0)
+        from population import make_br
+        br = make_br(2.0, 3.0)
         p = es.Population(0.5, 0, br)
         with self.assertRaises(TypeError):
             p.birth_rate(100.0)
