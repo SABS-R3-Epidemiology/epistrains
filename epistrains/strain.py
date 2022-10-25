@@ -17,4 +17,3 @@ class Strain:
             raise TypeError("Recover rate should be float")
         if not ((isinstance(beta, float)) or (isinstance(beta, int))):
             raise TypeError("Transmission rate should be float")
-

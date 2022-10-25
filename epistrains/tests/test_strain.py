@@ -20,6 +20,4 @@ class StrainTest(unittest.TestCase):
             s = es.Strain('a', 0.2, 0.3)
 
         with pytest.raises(TypeError):
-            s = es.Strain(0.1, [2,3], 0.3)
-
-        
+            s = es.Strain(0.1, [2, 3], 0.3)
