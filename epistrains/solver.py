@@ -2,6 +2,7 @@ from typing import List
 import numpy as np
 import scipy.integrate
 from epistrains.strain import Strain
+import matplotlib.pylab as plt
 
 
 class Solver:
@@ -71,3 +72,37 @@ class Solver:
             max_step=0.001
         )
         self.solution = sol
+
+    def plot_compartment(output_solver, save_path=False):
+        """Function to plot the counts in the compartments over time
+        param output_solver: .t will give an ndarray, shape (n_points,), of time points
+                            .y  will give an ndarray, shape (n,n_points,) of values of the solution at t. n depends on the number of strains.
+        :type output_solver: solver object
+        :param save_path: gives path to which figure should be saved. Default is False, figure would not be saved.
+        :type time: string, boolean
+        """
+
+        fig = plt.figure()
+
+        #initialise colours and number of strains
+        colours_SR = ["red", "blue"]
+        colours_I = (cm.get_cmap("ylGn"))
+        number_strains = output_solver.y.shape[0] - 2 #number of rows in output minus the S and R compartments
+
+        #plot the S and R compartment
+        plt.plot(sol.t, sol.y[0, :], label="S", color = colours_SR[0])
+        plt.plot(sol.t, sol.y[1, :], label="R", color = colours_SR[1])
+
+        #plot the I compartments
+        for i in range(number_strains):
+            plt.plot(sol.t, sol.y[i+2, :], label=f"I{i+1}", color = colours_I)
+
+        plt.legend()
+        plt.ylabel("Number of individuals")
+        plt.xlabel("Time (days)")
+
+        #save figure if required
+        if save_path:
+            plt.savefig(save_path)
+
+        plt.show()
