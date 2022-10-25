@@ -8,31 +8,50 @@ class Population:
     ----------
     death: float
         constant death rate
+    size: int
+        initial population size
+    birth_function: function
+        function to govern birth rate
+        exponential birth rate function created with make_br() can be used
+        alternatively provide another function  in terms of N
+        for a constant birth rate use: lambda N: constant
+    """
+
+    def __init__(self, death: float, size: int, birth_function=None):
+        """Initialize the class and take general population parameters relating to birth and death rates"""
+        self.death_rate = death
+        self.init_size = size
+        self.birth_rate = birth_function
+
+        if not isinstance(self.death_rate, float):
+            raise TypeError("Death rate must be of type float")
+        if not isinstance(self.init_size, int):
+            raise TypeError("Initial population size must be of type int")
+
+
+def make_br(a, k):
+    """Define exponential birth rate function
+    Parameters
+    ----------
     a: float
         birth rate constant
     k: float
         birth rate exponent constant
-    birth_function: lamda function, optional
-        function to govern birth rate, defaults to exponential growth with a carrying capacity = (1/k)*log(a/b)
     """
+    if not isinstance(a, float):
+        raise TypeError("Constant a must be of type float")
+    if not isinstance(k, float):
+        raise TypeError("Constant k must be of type float")
 
-    def __init__(self, death, a=None, k=None, birth_function=None):
-        """Initialize the class and take general population parameters relating to birth and death rates"""
-        self.death_rate = death
-        self.birth_a = a
-        self.birth_k = k
+    def br(N: int):
+        """Generate exponential birth rate function
+        Parameters
+        ----------
+        N: int
+            current population size
+        """
+        if not isinstance(N, int):
+            raise TypeError("Population size must be of type int")
 
-        def birth_rate(size):
-            """Define exponential birth rate function
-            Parameters
-            ----------
-            size: int
-                total population size as calculated in model
-            """
-            rate = self.birth_a * math.exp(-self.birth_k * size)
-            return rate
-
-        if birth_function is None:
-            self.birth_function = birth_rate
-        else:
-            self.birth_function = birth_function
+        return a * math.exp(-k * N)
+    return br
