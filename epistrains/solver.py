@@ -13,16 +13,15 @@ class Solver:
         defaults to 1
     :type time: float, optional
     """
-    def __init__(self, strains: List[Strain], t_eval, time = 1):
+    def __init__(self, strains: List[Strain], time = 1):
         self.time = round(time, 2)
         self.solution = []
         self.strains = strains
-        self.t_eval = t_eval
 
     def solver(self):
         """Solve the differential equations
         """
-        # t_eval = np.linspace(0, self.time, int(self.time*10000))
+        t_eval = np.linspace(0, self.time, int(self.time*10000))
         y0 = np.array([0.0, 0.0] + [0.0 for _ in self.strains])
         sol = scipy.integrate.solve_ivp(
             fun = lambda t, y: self.ODE(t, y, ), #finish by Nathan's fun name
