@@ -1,5 +1,6 @@
 import unittest
 import epistrains as es
+import numpy as np
 
 
 class SolverTest(unittest.TestCase):
@@ -10,7 +11,8 @@ class SolverTest(unittest.TestCase):
         """
         Tests Solver creation.
         """
-        s = es.Solver(strains = [es.Strain(0.1, 0.2, 0.3), es.Strain(0.1, 0.2, 0.3)])
+        s = es.Solver(strains = [es.Strain(0.1, 0.2, 0.3), es.Strain(0.1, 0.2, 0.3)],
+        t_eval = np.linspace(0, self.time, int(self.time*10000)))
         pass
 
     def test_solver(self):
