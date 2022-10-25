@@ -61,7 +61,8 @@ class Solver:
         """Solve the differential equations
         """
         t_eval = np.linspace(0, self.time, int(self.time*10000))
-        y0 = np.array([0.0, 0.0] + [0.0 for _ in self.strains])
+        n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
+        y0 = np.array([n_sus, 0.0] + [strain.infected for strain in self.strains])
         sol = scipy.integrate.solve_ivp(
             # finish by Nathan's fun name
             # fun=lambda t, y: self._rhs(t, y),
