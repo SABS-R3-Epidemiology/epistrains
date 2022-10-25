@@ -10,7 +10,7 @@ A multi-strain SIR model
 
 For this model, we assume that the total population size, N is governed by a population growth model with different birth rates but a constant per capita death rate. An example of this is as follows:
 $$\frac{dN}{dt} = N\left(ae^{-kN}-b\right)$$
-where \(a>b\). We can change this birth function to either uniform growth \(aN\) or logistic growth \(aN\left(1-\frac{N}{k}\right)\) where k is the carrying capacity.  
+where \(a>b\). We can change this birth function to either uniform growth aN or logistic growth $aN\left(1-\frac{N}{k}\right)$ where k is the carrying capacity.  
 The total population size obeys the following equation:
 $$N = S + R + \sum_{j} I_j$$  
 For our model we use a system of SIR ODEs with the following compartments: S (susceptible), R (recovered) or I\(_j\) (infected with thej\(^{th}\) strain of the disease). The ODEs that govern the time evolution of the system are:  
