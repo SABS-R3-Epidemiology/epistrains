@@ -5,7 +5,8 @@ class Population:
     """
     Population based parameters for the construction of birth rate and death rate terms
     Parameters
-    
+    kjagjhasfajsd
+
     :param death: constant death rate
     :type death: float  
     :param size: initial population size
