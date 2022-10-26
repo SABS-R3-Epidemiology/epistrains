@@ -75,6 +75,10 @@ class Solver:
     def _make_plot(self):
         """Creates the plot of the number of individuals in each compartment over time
         """
+
+        if self.solution is None:
+            raise ValueError("Must run s.solve() before plotting solutions")
+
         plt.figure()
         output_solver = self.solution
 
@@ -108,7 +112,7 @@ class Solver:
 
     def save_compartments(self, save_path='epistrains_output.png'):
         """Function to save the compartments plot created by _make_plot
-        :param save_path: gives path to which figure should be saved. Default is False, figure would not be saved.
+        :param save_path: gives path to which figure should be saved
         :type save_path: string
         """
 
