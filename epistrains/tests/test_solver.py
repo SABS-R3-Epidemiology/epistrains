@@ -41,4 +41,3 @@ class SolverTest(unittest.TestCase):
         s = es.Solver(strains=[s1, s2, s3], pop=p)
         s.solve()
         self.assertEqual(5, len(s.solution.y))
-

@@ -53,5 +53,5 @@ def make_br(a, k):
         if not isinstance(N, int):
             raise TypeError("Population size must be of type int")
 
-        return a * math.exp(-k * N)
+        return N * a * math.exp(-k * N)
     return br
