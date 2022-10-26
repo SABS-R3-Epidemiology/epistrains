@@ -1,13 +1,12 @@
-from epistrains import Population, make_br, Strain, Solver, plot_compartments
+from epistrains import Population, make_br, Strain, Solver
 
-birth_rate_function = make_br(a=100.0, k=3.0)
+birth_rate_function = make_br(a=1.0, k=0.001)
 
-population = Population(death=0.05, size=1000, birth_function=birth_rate_function)
+population = Population(death=0.00005, size=10000, birth_function=birth_rate_function)
 
-I1 = Strain(alpha=0.1, nu=0.1, beta=0.1, infected=5)
-I2 = Strain(alpha=0.1, nu=0.3, beta=0.1, infected=3)
+I1 = Strain(alpha=0.0, nu=0.05, beta=0.005, infected=3)
+I2 = Strain(alpha=0.005, nu=0.04, beta=0.007, infected=8)
 
-model = Solver(pop=population, strains=[I1, I2], time=10)
-solution = model.solve()
-
-plot_compartments(solution)
+model = Solver(pop=population, strains=[I1, I2], time=1)
+model.solve()
+model.plot_compartments()
