@@ -6,6 +6,32 @@
 
 A multi-strain SIR model
 
+
+## Installation
+
+```
+python install -e .
+```
+
+## Usage
+
+Below is an example of how use the package to define, solve and visualise the multi-strain SIR model. This model uses an exponential birth rate and models two strains with different recovery rates.
+
+```python
+from epistrains import Population, make_br, Strain, Solver
+
+birth_rate_function = make_br(a=1.0, k=0.001)
+
+population = Population(death=0.00005, size=10000, birth_function=birth_rate_function)
+
+I1 = Strain(alpha=0.0, nu=0.05, beta=0.005, infected=3)
+I2 = Strain(alpha=0.005, nu=0.04, beta=0.007, infected=8)
+
+model = Solver(pop=population, strains=[I1, I2], time=1)
+model.solve()
+model.plot_compartments()
+```
+
 ## Background
 
 For this model, we assume that the total population size, N is governed by a population growth model with different birth rates but a constant per capita death rate. An example of this is as follows:
@@ -21,16 +47,3 @@ $$\frac{dI_j}{dt} = I_j(\beta_j S - (b + \nu_j + \alpha_j))$$
 $$\frac{dR}{dt} = -bR + \sum_j \nu_j I_j$$
 
 From these equations we can trivially check the equation for $\frac{dN}{dt}$.
-
-
-## Installation
-
-```
-python install -e .
-```
-
-## Usage 
-
-```
-TODO
-```
