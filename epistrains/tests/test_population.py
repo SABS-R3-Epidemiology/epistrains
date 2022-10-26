@@ -10,10 +10,10 @@ class PopulationTest(unittest.TestCase):
         """
         Tests birth function is created with make_br()
         """
-        br = es.make_br(2.0, 3.0)
+        br = es.make_br(2.0, 0.0)
         p = es.Population(0.5, 0, br)
-        birth = p.birth_rate(0)
-        self.assertEqual(2, birth)
+        birth = p.birth_rate(10)
+        self.assertEqual(20, birth)
 
     def test_input_birth(self):
         """
