@@ -30,6 +30,7 @@ I2 = Strain(alpha=0.005, nu=0.04, beta=0.007, infected=8)
 model = Solver(pop=population, strains=[I1, I2], time=1)
 model.solve()
 model.plot_compartments()
+model.save_compartments('epistrains_example.png')
 ```
 
 ## Background

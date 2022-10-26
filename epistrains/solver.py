@@ -109,13 +109,12 @@ class Solver:
         )
         self.solution = sol
 
-    def plot_compartments(self, save_path=False):
-        """Plot the counts in the compartments over time
-
-        :param save_path: gives path to which figure should be saved. 
-            Default is False, figure would not be saved.
-        :type save_path: string or boolean, optional
+    def _make_plot(self):
+        """Creates the plot of the number of individuals in each compartment over time
         """
+
+        if self.solution is None:
+            raise ValueError("Must run s.solve() before plotting solutions")
 
         plt.figure()
         output_solver = self.solution
@@ -125,20 +124,35 @@ class Solver:
         colours_SR = ["red", "blue"]
         colours_I = plt.cm.Greens(np.linspace(0.5, 1, number_strains))
 
-        # Plot the S and R compartment
+        # Plot the S compartment
         plt.plot(output_solver.t, output_solver.y[0, :], label="S", color=colours_SR[0])
-        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color=colours_SR[1])
 
         # Plot the I compartments
         for i in range(1, number_strains+1):
             plt.plot(output_solver.t, output_solver.y[i, :], label=f"I{i}", color=colours_I[i-1])
 
+        # Plot the R compartment
+        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color=colours_SR[1])
+
         plt.legend()
         plt.ylabel("Number of individuals")
         plt.xlabel("Time (days)")
 
-        # Save figure if required
-        if save_path:
-            plt.savefig(save_path)
+        return plt
 
+    def plot_compartments(self):
+        """Function to show the compartments plot created by _make_plot
+        """
+
+        plt = self._make_plot()
         plt.show()
+
+    def save_compartments(self, save_path='epistrains_output.png'):
+        """Function to save the compartments plot created by _make_plot
+        
+        :param save_path: gives path to which figure should be saved
+        :type save_path: string
+        """
+
+        plt = self._make_plot()
+        plt.savefig(save_path, dpi=300)
