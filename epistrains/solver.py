@@ -36,8 +36,8 @@ class Solver:
         self.func_birth = pop.birth_rate
 
     def _ODE_S(self, y, b):
-        sum_alpha = sum(strain.alpha*y[_+2] for _, strain in enumerate(self.strains))
-        dS_dt = self.func_birth(int(sum(y))) - sum_alpha - b*y[0]
+        sum_beta = sum(strain.beta*y[_+2] for _, strain in enumerate(self.strains))
+        dS_dt = self.func_birth(int(sum(y))) - sum_beta*y[0] - b*y[0]
         return dS_dt
 
     def _ODE_I_j(self, y, b, j):
