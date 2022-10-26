@@ -57,7 +57,7 @@ SIR models are a form of compartment model used for the mathematical modelling o
 
 We assume that the total population size, $N$ is governed by a population growth model with exponential birth rate by default and a constant per capita death rate. This is represented as follows:
 $$\frac{dN}{dt} = N\left(ae^{-kN}-b\right)$$
-where $a$ and $k$ are constants of the exponential birth function, $b$ is the per capita death rate, and $\(a>b\)$ such that the carrying capacity of the population is $\frac{1}{k}\left\log(\frac{a}{b})\right$. This birth function can be changed by the user, for example to uniform growth $aN$ or logistic growth $aN\left(1-\frac{N}{k}\right)$ where $k$ is the carrying capacity.  
+where $a$ and $k$ are constants of the exponential birth function, $b$ is the per capita death rate, and $\(a>b\)$ such that the carrying capacity of the population is $\frac{1}{k}\log(\frac{a}{b})$. This birth function can be changed by the user, for example to uniform growth $aN$ or logistic growth $aN\left(1-\frac{N}{k}\right)$ where $k$ is the carrying capacity.  
 
 The total population size obeys the following equation:
 $$N = S + R + \sum_{j} I_j$$  
