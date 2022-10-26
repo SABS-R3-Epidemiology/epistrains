@@ -15,13 +15,13 @@ python install -e .
 
 ## Usage
 
-Below is an example of how use the package to define, solve and visualise the multi-strain SIR model. This model uses an exponential birth rate and models two strains with different death, recovery, and transmission rates, along with a different number of individuals initially infected with each strain.
+Below is an example of how use the package to define, solve and visualise the multi-strain SIR model. This model uses the default birth rate and models two strains with different death, recovery, and transmission rates, along with a different number of individuals initially infected with each strain. This code can also be found in `example.py`
 
 Import the relevant classes and functions from the epistrains package.
 ```python
 from epistrains import Population, make_br, Strain, Solver
 ```
-Generate an exponential birth rate function: $Nae^{-kN}$
+Generate a birth rate function with exponential form: $Nae^{-kN}$
 ``` python
 birth_rate_function = make_br(a=1.0, k=0.001)
 ```
@@ -55,7 +55,7 @@ population = Population(death=0.00005, size=10000, birth_function= lambda N: 0.0
 
 SIR models are a form of compartment model used for the mathematical modelling of infectious disease. Here, we implement the model developed by Bremermann and Thieme (1989)[^1], in which there are multiple infected compartments, one for each strain.
 
-We assume that the total population size, $N$ is governed by a population growth model with exponential birth rate by default and a constant per capita death rate. This is represented as follows:
+We assume that the total population size, $N$ is governed by a population growth model with a per capita exponential birth rate by default and a constant per capita death rate. This is represented as follows:
 $$\frac{dN}{dt} = N\left(ae^{-kN}-b\right)$$
 where $a$ and $k$ are constants of the exponential birth function, $b$ is the per capita death rate, and $\(a>b\)$ such that the carrying capacity of the population is $\frac{1}{k}\log(\frac{a}{b})$. This birth function can be changed by the user, for example to uniform growth $aN$ or logistic growth $aN\left(1-\frac{N}{k}\right)$ where $k$ is the carrying capacity.  
 
