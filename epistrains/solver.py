@@ -78,27 +78,27 @@ class Solver:
         :type time: string, boolean
         """
 
-        fig = plt.figure()
+        plt.figure()
         output_solver = self.solution
 
-        #initialise colours and number of strains
-        number_strains = output_solver.y.shape[0] - 2 #number of rows in output minus the S and R compartments
+        # Initialise colours and number of strains
+        number_strains = output_solver.y.shape[0] - 2  # number of rows in output minus the S and R compartments
         colours_SR = ["red", "blue"]
         colours_I = plt.cm.summer(np.linspace(0, 1, number_strains))
 
-        #plot the S and R compartment
-        plt.plot(output_solver.t, output_solver.y[0, :], label="S", color = colours_SR[0])
-        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color = colours_SR[1])
+        # Plot the S and R compartment
+        plt.plot(output_solver.t, output_solver.y[0, :], label="S", color=colours_SR[0])
+        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color=colours_SR[1])
 
-        #plot the I compartments
-        for i in range(1,number_strains+1):
-            plt.plot(output_solver.t, output_solver.y[i, :], label=f"I{i}", color = colours_I[i-1])
+        # Plot the I compartments
+        for i in range(1, number_strains+1):
+            plt.plot(output_solver.t, output_solver.y[i, :], label=f"I{i}", color=colours_I[i-1])
 
         plt.legend()
         plt.ylabel("Number of individuals")
         plt.xlabel("Time (days)")
 
-        #save figure if required
+        # Save figure if required
         if save_path:
             plt.savefig(save_path)
 
