@@ -1,5 +1,6 @@
 class Strain:
     """Represent the jth strain of the disease.
+    
     :param die: death rate if individual is infected with jth strain
     :type die: float
     :param recover: recover rate if individual is infected with jth strain
