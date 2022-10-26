@@ -29,7 +29,7 @@ class Population:
             raise TypeError("Initial population size must be of type int")
 
 
-def make_br(a, k):
+def make_br(a: float, k: float):
     """Define exponential birth rate function
     Parameters
 
