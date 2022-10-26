@@ -1,6 +1,7 @@
 from typing import List
 import numpy as np
 import scipy.integrate
+from epistrains.population import Population
 from epistrains.strain import Strain
 import matplotlib.pylab as plt
 
@@ -19,7 +20,7 @@ class Solver:
         defaults to 1
     :type time: float or integer, optional
     """
-    def __init__(self, pop, strains: List[Strain], time=1):
+    def __init__(self, pop: Population, strains: List[Strain], time=1):
         """Initialize the class and take general solver parameters"""
         # number of strains 
         self.n = len(strains)
