@@ -5,11 +5,11 @@ class Population:
     """
     Population based parameters for the construction of birth rate and death rate terms
     Parameters
-    ----------
-    death: float
-        constant death rate
-    size: int
-        initial population size
+    
+    :param death: constant death rate
+    :type death: float  
+    :param size: initial population size
+    :type size: int
     birth_function: function
         function to govern birth rate
         exponential birth rate function created with make_br() can be used
