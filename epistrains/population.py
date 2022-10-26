@@ -5,17 +5,16 @@ class Population:
     """
     Population based parameters for the construction of birth rate and death rate terms
     Parameters
-    kjagjhasfajsd
 
     :param death: constant death rate
     :type death: float  
     :param size: initial population size
     :type size: int
-    birth_function: function
-        function to govern birth rate
+    :param birth_function: function to govern birth rate
         exponential birth rate function created with make_br() can be used
         alternatively provide another function  in terms of N
         for a constant birth rate use: lambda N: constant
+    :type birth_function: function
     """
 
     def __init__(self, death: float, size: int, birth_function=None):
@@ -33,11 +32,11 @@ class Population:
 def make_br(a, k):
     """Define exponential birth rate function
     Parameters
-    ----------
-    a: float
-        birth rate constant
-    k: float
-        birth rate exponent constant
+
+    :param a: birth rate constant
+    :type a: float
+    :param k: birth rate exponent constant
+    :type k: float
     """
     if not isinstance(a, float):
         raise TypeError("Constant a must be of type float")
@@ -47,9 +46,9 @@ def make_br(a, k):
     def br(N: int):
         """Generate exponential birth rate function
         Parameters
-        ----------
-        N: int
-            current population size
+        
+        :param N: current population size
+        :type N: int
         """
         if not isinstance(N, int):
             raise TypeError("Population size must be of type int")
