@@ -75,7 +75,7 @@ class Solver:
     def plot_compartments(self, save_path=False):
         """Function to plot the counts in the compartments over time
         :param save_path: gives path to which figure should be saved. Default is False, figure would not be saved.
-        :type time: string, boolean
+        :type save_path: string, boolean
         """
 
         plt.figure()
@@ -84,7 +84,7 @@ class Solver:
         # Initialise colours and number of strains
         number_strains = output_solver.y.shape[0] - 2  # number of rows in output minus the S and R compartments
         colours_SR = ["red", "blue"]
-        colours_I = plt.cm.summer(np.linspace(0, 1, number_strains))
+        colours_I = plt.cm.Greens(np.linspace(0.5, 1, number_strains))
 
         # Plot the S and R compartment
         plt.plot(output_solver.t, output_solver.y[0, :], label="S", color=colours_SR[0])
