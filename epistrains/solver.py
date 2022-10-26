@@ -53,15 +53,15 @@ class Solver:
 
     def _rhs(self, y):
         dy = [self._ODE_S(y, self.b)]
-        for i in range (1,self.n+1):
+        for i in range(1,self.n+1):
             dy.append(self._ODE_I_j(y, self.b, i))
         dy.append(self._ODE_R(y, self.b))
         return dy
 
     def solve(self):
-        """Solve the differential equations
+        """Solve the differential equations of the system
         """
-        t_eval = np.linspace(0, self.time, int(self.time*10000))
+        t_eval = np.linspace(0, self.time, int(self.time*100))
         n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
         y0 = np.array([n_sus] + [strain.infected for strain in self.strains] + [0.0])
         sol = scipy.integrate.solve_ivp(
@@ -77,6 +77,7 @@ class Solver:
         """Function to plot the counts in the compartments over time
         param output_solver: .t will give an ndarray, shape (n_points,), of time points
                             .y  will give an ndarray, shape (n,n_points,) of values of the solution at t. n depends on the number of strains.
+                            Note; order of .y is [[S], [I1], [I2], [R]] (in case of 2 strains)
         :type output_solver: solver object
         :param save_path: gives path to which figure should be saved. Default is False, figure would not be saved.
         :type time: string, boolean
@@ -85,17 +86,17 @@ class Solver:
         fig = plt.figure()
 
         #initialise colours and number of strains
-        colours_SR = ["red", "blue"]
-        colours_I = ["green", "yellow", "orange"]
         number_strains = output_solver.y.shape[0] - 2 #number of rows in output minus the S and R compartments
+        colours_SR = ["red", "blue"]
+        colours_I = plt.cm.summer(np.linspace(0, 1, number_strains))
 
         #plot the S and R compartment
         plt.plot(output_solver.t, output_solver.y[0, :], label="S", color = colours_SR[0])
-        plt.plot(output_solver.t, output_solver.y[1, :], label="R", color = colours_SR[1])
+        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color = colours_SR[1])
 
         #plot the I compartments
-        for i in range(number_strains):
-            plt.plot(output_solver.t, output_solver.y[i+2, :], label=f"I{i+1}", color = colours_I[i])
+        for i in range(1,number_strains+1):
+            plt.plot(output_solver.t, output_solver.y[i, :], label=f"I{i}", color = colours_I[i-1])
 
         plt.legend()
         plt.ylabel("Number of individuals")
