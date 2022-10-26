@@ -3,7 +3,7 @@ from epistrains import Population, make_br, Strain, Solver
 # Generate an exponential birth rate function: N*a*exp(-k*N)
 birth_rate_function = make_br(a=1.0, k=0.001)
 
-# Instantiate the population class with a death rate, b=0.00005, and initial population size=10,0000
+# Instantiate the population class with a death rate = 0.00005, and initial population size = 10,000
 # and the exponential birth rate function defined above.
 population = Population(death=0.00005, size=10000, birth_function=birth_rate_function)
 
