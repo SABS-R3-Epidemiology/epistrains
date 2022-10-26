@@ -46,14 +46,14 @@ class Solver:
 
     def _ODE_R(self, y, b):
         sum_nu = 0
-        for i in range(1,self.n+1):
+        for i in range(1, self.n+1):
             sum_nu += self.nu[i-1]*y[i]
         dR_dt = -b * y[-1] + sum_nu
         return dR_dt
 
     def _rhs(self, y):
         dy = [self._ODE_S(y, self.b)]
-        for i in range(1,self.n+1):
+        for i in range(1, self.n+1):
             dy.append(self._ODE_I_j(y, self.b, i))
         dy.append(self._ODE_R(y, self.b))
         return dy
@@ -70,19 +70,16 @@ class Solver:
             y0=y0,
             t_eval=t_eval,
         )
-        return sol
+        self.solution = sol
 
-    def plot_compartments(output_solver, save_path=False):
+    def plot_compartments(self, save_path=False):
         """Function to plot the counts in the compartments over time
-        param output_solver: .t will give an ndarray, shape (n_points,), of time points
-                            .y  will give an ndarray, shape (n,n_points,) of values of the solution at t. n depends on the number of strains.
-                            Note; order of .y is [[S], [I1], [I2], [R]] (in case of 2 strains)
-        :type output_solver: solver object
         :param save_path: gives path to which figure should be saved. Default is False, figure would not be saved.
         :type time: string, boolean
         """
 
         fig = plt.figure()
+        output_solver = self.solution
 
         #initialise colours and number of strains
         number_strains = output_solver.y.shape[0] - 2 #number of rows in output minus the S and R compartments
