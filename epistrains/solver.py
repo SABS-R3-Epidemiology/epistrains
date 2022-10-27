@@ -50,34 +50,36 @@ class Solver:
     def _ODE_S(self, y, b):
         """First order derivative function for susceptible
 
-        :param y: a list composed by susceptible, infected with j strains and recover
+        :param y: number of susceptible, infected and recovered individuals
         :type y: list
         :param b: death rate
         :type b: float
         """
         S = y[0]
         R = y[-1]
-        sum_beta = sum((strain.beta_unscaled/self.n_sus)*y[i+1] for i, strain in enumerate(self.strains))
+        sum_beta = sum((strain.beta_unscaled/self.n_sus)*y[i+1]
+                       for i, strain in enumerate(self.strains))
         dS_dt = self.func_birth(int(sum(y))) - sum_beta*S - b*S + self.w*R
         return dS_dt
 
     def _ODE_I_j(self, y, b, j):
         """First order derivative function for jth strain
 
-        :param y: a list composed by susceptible, infected with j strains and recover
+        :param y: number of susceptible, infected and recovered individuals
         :type y: list
         :param b: death rate
         :type b: float
         :param j: index of the infected strain
         :type j: int
         """
-        dI_j_dt = y[j]*(self.beta_scaled[j-1]*y[0] - (b + self.nu[j-1] + self.alpha[j-1]))
+        dI_j_dt = y[j]*(self.beta_scaled[j-1]*y[0] - (b + self.nu[j-1]
+                                                      + self.alpha[j-1]))
         return dI_j_dt
 
     def _ODE_R(self, y, b):
         """First order derivative function for recover
 
-        :param y: a list composed by susceptible, infected with j strains and recover
+        :param y: number of susceptible, infected and recovered individuals
         :type y: list
         :param b: death rate
         :type b: float
@@ -92,7 +94,7 @@ class Solver:
     def _rhs(self, y):
         """Right hand equations for ODE solver
 
-        :param y: a list composed by susceptible, infected with j strains and recover
+        :param y: number of susceptible, infected and recovered individuals
         :type y: list
         """
         dy = [self._ODE_S(y, self.b)]
@@ -105,7 +107,8 @@ class Solver:
         """Solve the differential equations
         """
         t_eval = np.linspace(0, self.time, self.time*10)
-        y0 = np.array([self.n_sus] + [strain.infected for strain in self.strains] + [0.0])
+        y0 = np.array([self.n_sus] + [strain.infected for
+                                      strain in self.strains] + [0.0])
         sol = scipy.integrate.solve_ivp(
             fun=lambda t, y: self._rhs(y),
             t_span=[t_eval[0], t_eval[-1]],
@@ -124,7 +127,8 @@ class Solver:
         number_strains = output_solver.y.shape[0] - 2
         virus_death = np.repeat(0.0, len(output_solver.t))
         for i in range(1, number_strains+1):
-            virus_death += np.array(output_solver.y[i, :]) * self.strains[i-1].alpha
+            virus_death += np.array(output_solver.y[i, :]
+                                    )*self.strains[i-1].alpha
         # virus death would be shown on next timestamp
         virus_death = np.append(np.array(0), virus_death[:-1])
         self.deaths = virus_death
