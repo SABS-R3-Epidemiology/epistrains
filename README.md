@@ -24,15 +24,15 @@ from epistrains import Population, make_br, Strain, Solver
 ```
 Generate a birth rate function with exponential form: $Nae^{-kN}$
 ``` python
-birth_rate_function = make_br(a=1.0, k=0.001)
+birth_rate_function = make_br(a=10.0, k=0.001)
 ```
-Instantiate the population class with a death rate = 0.0, and initial population size = 150,000 and the exponential birth rate function defined above.
+Instantiate the population class with a death rate = 0.000006, and initial population size = 150,000 and the exponential birth rate function defined above.
 ``` python
-population = Population(death=0.0, size=150000, birth_function=birth_rate_function)
+population = Population(death=0.000006, size=150000, birth_function=birth_rate_function)
 ```
-Generate two strains to model. Strain I1 has a death rate, alpha=0.0, recovery rate, nu=0.143, and a transmission rate, beta=0.000003. This gives an R0 of 3.14. At the start of the simulation 150 individuals are infected with strain I1. Strain I2 has a death rate, alpha=0.002, recovery rate, nu=0.2, and a transmission rate, beta=0.00000429. This gives an R0 of 3.22. At the start of the simulation 10 individuals are infected with strain I2.
+Generate two strains to model. Strain I1 has a death rate, alpha=0.00001, recovery rate, nu=0.143, and a transmission rate, beta=0.000003. This gives an R0 of 3.14. At the start of the simulation 150 individuals are infected with strain I1. Strain I2 has a death rate, alpha=0.002, recovery rate, nu=0.2, and a transmission rate, beta=0.00000429. This gives an R0 of 3.22. At the start of the simulation 10 individuals are infected with strain I2.
 ```python
-I1 = Strain(alpha=0.0, nu=0.143, beta=0.000003, infected=150)
+I1 = Strain(alpha=0.00001, nu=0.143, beta=0.000003, infected=150)
 I2 = Strain(alpha=0.002, nu=0.2, beta=0.00000429, infected=10)
 ```
 Instantiate the Solver class, providing it with the population structure and the two strains to be modelled, as well as the total time over which to run the simulation.
@@ -48,7 +48,7 @@ model.save_compartments('epistrains_example.png')
 
 It is also possible to implement an alternative birth rate function instead of the default exponential. For example:
 ```python
-population = Population(death=0.0, size=150000, birth_function= lambda N: 0.0005*N)
+population = Population(death=0.000006, size=150000, birth_function= lambda N: 0.0005*N)
 ```
 
 
