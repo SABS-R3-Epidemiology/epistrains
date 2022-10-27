@@ -98,7 +98,7 @@ class Solver:
     def solve(self):
         """Solve the differential equations
         """
-        t_eval = np.linspace(0, self.time, int(self.time*100))
+        t_eval = np.linspace(0, self.time, self.time*10)
         n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
         y0 = np.array([n_sus] + [strain.infected for strain in self.strains] + [0.0])
         sol = scipy.integrate.solve_ivp(
