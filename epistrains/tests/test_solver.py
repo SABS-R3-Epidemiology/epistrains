@@ -48,6 +48,9 @@ class SolverTest(unittest.TestCase):
         ax = plt.gca()
         # plot should have 5 lines: 1 S, 3 I, 1 R
         self.assertEqual(len(ax.lines), 5)
+        # line R (-1) should not be equal to line of last I (-2), check per element
+        for i in range(len(ax.lines[-1].get_ydata())):
+            self.assertNotEqual(ax.lines[-1].get_ydata()[i], ax.lines[-2].get_ydata()[i], 'R and last I are equal!')
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):
