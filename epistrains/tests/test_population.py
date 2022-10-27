@@ -44,6 +44,13 @@ class PopulationTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             es.Population(0.2, 100, 5, 10)
 
+    def test_immunity_error(self):
+        """
+        Tests type error raised for current immunity input
+        """
+        with self.assertRaises(TypeError):
+            es.Population(0.2, 100, 5, 10.0, '50')
+
     def test_make_br_error(self):
         """
         Tests type error raised for inputs to make_br()
