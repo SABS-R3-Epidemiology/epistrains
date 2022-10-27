@@ -48,9 +48,19 @@ class SolverTest(unittest.TestCase):
         ax = plt.gca()
         # plot should have 5 lines: 1 S, 3 I, 1 R
         self.assertEqual(len(ax.lines), 5)
-        # line R (-1) should not be equal to line of last I (-2), check per element
-        for i in range(len(ax.lines[-1].get_ydata())):
-            self.assertNotEqual(ax.lines[-1].get_ydata()[i], ax.lines[-2].get_ydata()[i], 'R and last I are equal!')
+        # all lines should be different
+        for i in range(len(ax.lines)):
+            for j in range(len(ax.lines)):
+                if i != j:
+                    assert(not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+
+    def test_identical_strain(self):
+        s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
+        s.solve()
+        plt = s._make_plot()
+        ax = plt.gca()
+        # identical strains should give identical lines
+        assert(all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):
