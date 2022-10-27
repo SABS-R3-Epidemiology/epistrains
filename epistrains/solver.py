@@ -45,6 +45,7 @@ class Solver:
         # store population related parameters
         self.b = pop.death_rate
         self.w = pop.waning_rate
+        self.recovered = pop.current_immune
         self.func_birth = pop.birth_rate
 
     def _ODE_S(self, y, b):
@@ -105,7 +106,7 @@ class Solver:
         """Solve the differential equations
         """
         t_eval = np.linspace(0, self.time, self.time*10)
-        y0 = np.array([self.n_sus] + [strain.infected for strain in self.strains] + [0.0])
+        y0 = np.array([self.n_sus] + [strain.infected for strain in self.strains] + [self.recovered])
         sol = scipy.integrate.solve_ivp(
             fun=lambda t, y: self._rhs(y),
             t_span=[t_eval[0], t_eval[-1]],

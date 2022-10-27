@@ -7,7 +7,7 @@ class Population:
     Parameters
 
     :param death: constant death rate
-    :type death: float  
+    :type death: float
     :param size: initial population size
     :type size: int
     :param birth_function: function to govern birth rate
@@ -17,14 +17,20 @@ class Population:
     :type birth_function: function
     :param waning: constant waning immunity rate
     :type waning: float
+    :param immunity: percentage of population currently immune
+    :type immunity: float
     """
 
-    def __init__(self, death: float, size: int, birth_function=None, waning=0.0):
+    def __init__(self, death: float, size: int, birth_function=None, waning=0.0, immunity=0.0):
         """Initialize the class and take general population parameters relating to birth and death rates"""
+        if not (isinstance(immunity, float) or isinstance(immunity, int)):
+            raise TypeError("Immunity levels must be numeric")
+
         self.death_rate = death
         self.init_size = size
         self.birth_rate = birth_function
         self.waning_rate = waning
+        self.current_immune = (immunity/100)*self.init_size
 
         if not isinstance(self.death_rate, float):
             raise TypeError("Death rate must be of type float")
@@ -51,7 +57,7 @@ def make_br(a: float, k: float):
     def br(N: int):
         """Generate exponential birth rate function
         Parameters
-        
+
         :param N: current population size
         :type N: int
         """
