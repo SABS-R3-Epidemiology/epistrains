@@ -42,6 +42,7 @@ class Solver:
             self.nu.append(strain.nu)
         # store population related parameters
         self.b = pop.death_rate
+        self.w = pop.waning_rate
         self.func_birth = pop.birth_rate
 
     def _ODE_S(self, y, b):
@@ -52,8 +53,10 @@ class Solver:
         :param b: death rate
         :type b: float
         """
+        S = y[0]
+        R = y[-1]
         sum_beta = sum(strain.beta*y[i+1] for i, strain in enumerate(self.strains))
-        dS_dt = self.func_birth(int(sum(y))) - sum_beta*y[0] - b*y[0]
+        dS_dt = self.func_birth(int(sum(y))) - sum_beta*S - b*S + self.w*R
         return dS_dt
 
     def _ODE_I_j(self, y, b, j):
@@ -77,10 +80,11 @@ class Solver:
         :param b: death rate
         :type b: float
         """
+        R = y[-1]
         sum_nu = 0
         for i in range(1, self.n+1):
             sum_nu += self.nu[i-1]*y[i]
-        dR_dt = -b * y[-1] + sum_nu
+        dR_dt = -b*R + sum_nu - self.w*R
         return dR_dt
 
     def _rhs(self, y):
