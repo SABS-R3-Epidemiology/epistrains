@@ -24,4 +24,4 @@ model.solve()
 
 # Plot the results to be displayed, and not saved.
 model.plot_compartments()
-model.save_compartments('epistrains_example.png')
+#model.save_compartments('epistrains_example.png')
