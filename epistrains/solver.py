@@ -29,7 +29,7 @@ class Solver:
         self.strains = strains
         self.solution = None
         self.deaths = None
-        self.n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
+        self.n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains) - self.pop.current_immune
         # should have at least one strain
         if self.n == 0:
             raise ValueError('Number of strains must be positive')
