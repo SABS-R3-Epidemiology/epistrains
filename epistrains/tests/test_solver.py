@@ -39,6 +39,17 @@ class SolverTest(unittest.TestCase):
         s.solve()
         self.assertEqual(5, len(s.solution.y))
 
+    def test_count_virus_death(self):
+        s = es.Solver(strains=self.strains, pop=self.p)
+        with self.assertRaises(ValueError):
+            s._count_virus_death()
+        s.solve()
+        s._count_virus_death()
+        #check the length of the new death array
+        self.assertEqual(len(s.deaths), len(s.solution.t))
+        #check number deaths smaller than number of infected (at previous time step)
+        assert(all(s.deaths[1:] <= (s.solution.y[1,:] + s.solution.y[2,:] + s.solution.y[3,:])[:-1]))
+
     def test_make_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)
         with self.assertRaises(ValueError):

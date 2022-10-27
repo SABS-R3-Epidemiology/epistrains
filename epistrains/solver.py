@@ -124,13 +124,14 @@ class Solver:
         number_strains = output_solver.y.shape[0] - 2
         virus_death = np.repeat(0.0, len(output_solver.t))
         for i in range(1, number_strains+1):
-            virus_death += np.array(output_solver.y[i, :])*self.strains[i-1].alpha
+            virus_death += np.array(output_solver.y[i, :]) * self.strains[i-1].alpha
         # virus death would be shown on next timestamp
         virus_death = np.append(np.array(0), virus_death[:-1])
         self.deaths = virus_death
-        	
+
     def _make_plot(self):
-        """Creates the plot of the number of individuals in each compartment over time
+        """Creates the plot of the number of individuals
+        in each compartment over time
         """
         if self.solution is None:
             raise ValueError("Must run s.solve() before plotting solutions")
@@ -139,23 +140,27 @@ class Solver:
         output_solver = self.solution
 
         # Initialise colours and number of strains
-        number_strains = output_solver.y.shape[0] - 2  # number of rows in output minus the S and R compartments
-        colours_SR = ["red", "blue"]
+        # number of strains equals #rows - S - R compartments
+        number_strains = output_solver.y.shape[0] - 2
+        colours_SRD = ["red", "blue", "brown"]
         colours_I = plt.cm.Greens(np.linspace(0.5, 1, number_strains))
 
         # Plot the S compartment
-        plt.plot(output_solver.t, output_solver.y[0, :], label="S", color=colours_SR[0])
+        plt.plot(output_solver.t, output_solver.y[0, :],
+                 label="S", color=colours_SRD[0])
 
         # Plot the I compartments
         for i in range(1, number_strains+1):
-            plt.plot(output_solver.t, output_solver.y[i, :], label=f"I{i}", color=colours_I[i-1])
+            plt.plot(output_solver.t, output_solver.y[i, :],
+                     label=f"I{i}", color=colours_I[i-1])
 
         # Plot the R compartment
-        plt.plot(output_solver.t, output_solver.y[-1, :], label="R", color=colours_SR[1])
+        plt.plot(output_solver.t, output_solver.y[-1, :],
+                 label="R", color=colours_SRD[1])
 
-        # Plot the number of virus death
+        # Plot number of deaths due to virus(es)
         self._count_virus_death()
-        plt.plot(output_solver.t, self.deaths, label = "D", color="brown")
+        plt.plot(output_solver.t, self.deaths, label="D", color=colours_SRD[2])
 
         plt.legend()
         plt.ylabel("Number of individuals")
