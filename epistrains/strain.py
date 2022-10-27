@@ -15,11 +15,11 @@ class Strain:
         self.alpha = CFR*self.nu
         self.beta_unscaled = (R0*(self.alpha + self.nu))
         self.infected = infected
-        if not ((isinstance(CFR, float)) or (isinstance(CFR, int))):
+        if not isinstance(CFR, float):
             raise TypeError("Case fatality rate should be float")
-        if not ((isinstance(recovery_time, float)) or (isinstance(recovery_time, int))):
+        if not isinstance(recovery_time, float):
             raise TypeError("Recovery time should be float")
-        if not ((isinstance(R0, float)) or (isinstance(R0, int))):
+        if not isinstance(R0, float):
             raise TypeError("R0 should be float")
         if not isinstance(infected, int):
             raise TypeError("Number of infected should be integer")
