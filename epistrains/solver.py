@@ -7,11 +7,11 @@ import matplotlib.pylab as plt
 
 
 class Solver:
-    """ Solver based parameters for the construction of ODE 
+    """ Solver based parameters for the construction of ODE
     right hand equations. Calculate ODE solution and plot
     the results
 
-    :param pop: population information relating to birth rate 
+    :param pop: population information relating to birth rate
         and death rate
     :type pop: Population
     :param strains: a list of strains to be infected
@@ -22,23 +22,24 @@ class Solver:
     """
     def __init__(self, pop: Population, strains: List[Strain], time=1):
         """Initialize the class and take general solver parameters"""
-        # number of strains 
+        # number of strains
         self.n = len(strains)
         self.time = round(time, 2)
         self.pop = pop
         self.strains = strains
         self.solution = None
+        self.n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
         # should have at least one strain
         if self.n == 0:
             raise ValueError('Number of strains must be positive')
         # store a list of death rate(alpha), transmission rate(beta),
         # and recover rate(nu)
         self.alpha = []
-        self.beta = []
+        self.beta_scaled = []
         self.nu = []
         for strain in self.strains:
             self.alpha.append(strain.alpha)
-            self.beta.append(strain.beta)
+            self.beta_scaled.append(strain.beta_unscaled/self.n_sus)
             self.nu.append(strain.nu)
         # store population related parameters
         self.b = pop.death_rate
@@ -55,7 +56,7 @@ class Solver:
         """
         S = y[0]
         R = y[-1]
-        sum_beta = sum(strain.beta*y[i+1] for i, strain in enumerate(self.strains))
+        sum_beta = sum((strain.beta_unscaled/self.n_sus)*y[i+1] for i, strain in enumerate(self.strains))
         dS_dt = self.func_birth(int(sum(y))) - sum_beta*S - b*S + self.w*R
         return dS_dt
 
@@ -69,7 +70,7 @@ class Solver:
         :param j: index of the infected strain
         :type j: int
         """
-        dI_j_dt = y[j]*(self.beta[j-1]*y[0] - (b + self.nu[j-1] + self.alpha[j-1]))
+        dI_j_dt = y[j]*(self.beta_scaled[j-1]*y[0] - (b + self.nu[j-1] + self.alpha[j-1]))
         return dI_j_dt
 
     def _ODE_R(self, y, b):
@@ -103,8 +104,7 @@ class Solver:
         """Solve the differential equations
         """
         t_eval = np.linspace(0, self.time, self.time*10)
-        n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains)
-        y0 = np.array([n_sus] + [strain.infected for strain in self.strains] + [0.0])
+        y0 = np.array([self.n_sus] + [strain.infected for strain in self.strains] + [0.0])
         sol = scipy.integrate.solve_ivp(
             fun=lambda t, y: self._rhs(y),
             t_span=[t_eval[0], t_eval[-1]],
@@ -141,6 +141,7 @@ class Solver:
         plt.legend()
         plt.ylabel("Number of individuals")
         plt.xlabel("Time (days)")
+        plt.tight_layout()
 
         return plt
 
@@ -153,7 +154,7 @@ class Solver:
 
     def save_compartments(self, save_path='epistrains_output.png'):
         """Function to save the compartments plot created by _make_plot
-        
+
         :param save_path: gives path to which figure should be saved
         :type save_path: string
         """
