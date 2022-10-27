@@ -1,4 +1,5 @@
 [![Python application](https://github.com/SABS-R3-Epidemiology/epistrains/actions/workflows/python-app.yml/badge.svg)](https://github.com/SABS-R3-Epidemiology/epistrains/actions/workflows/python-app.yml)
+[![Run on multiple OS](https://github.com/SABS-R3-Epidemiology/epistrains/actions/workflows/os-tests.yml/badge.svg)](https://github.com/SABS-R3-Epidemiology/epistrains/actions/workflows/os-tests.yml)
 [![codecov](https://codecov.io/gh/SABS-R3-Epidemiology/epistrains/branch/main/graph/badge.svg?token=UEYRNK9UE7)](https://codecov.io/gh/SABS-R3-Epidemiology/epistrains)
 [![Documentation Status](https://readthedocs.org/projects/epistrains/badge/?version=latest)](https://epistrains.readthedocs.io/en/latest/?badge=latest)
 
@@ -44,7 +45,7 @@ model.solve()
 model.plot_compartments()
 model.save_compartments('epistrains_example.png')
 ```
-To save the plot, provide the path denoting where to save the plot to `plot_compartments()`
+To save the plot, provide the path denoting where to save the plot to `save_compartments()`
 
 It is also possible to implement an alternative birth rate function instead of the default exponential. For example:
 ```python
