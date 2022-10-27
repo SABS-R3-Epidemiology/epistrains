@@ -4,6 +4,7 @@
 from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main classes
-from .population import Population, make_br  # noqa
-from .strain import Strain          # noqa
-from .solver import Solver          # noqa
+from .population import Population, make_br    # noqa
+from .strain import Strain                     # noqa
+from .solver import Solver                     # noqa
+from .multi_solver import MultiSolver          # noqa
