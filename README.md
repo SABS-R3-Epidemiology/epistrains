@@ -51,7 +51,7 @@ It is also possible to implement an alternative birth rate function instead of t
 ```python
 population = Population(death=0.000006, size=150000, birth_function= lambda N: 0.0005*N)
 ```
-![Example output](https://github.com/SABS-R3-Epidemiology/epistrains/blob/6c47b375c1a6fdcead70151ad30822c45a5f1735/epistrains_example.png =100x20)
+![Example output](https://github.com/SABS-R3-Epidemiology/epistrains/blob/6c47b375c1a6fdcead70151ad30822c45a5f1735/epistrains_example.png)
 
 ## Background
 
