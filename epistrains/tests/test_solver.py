@@ -46,8 +46,8 @@ class SolverTest(unittest.TestCase):
         s.solve()
         plt = s._make_plot()
         ax = plt.gca()
-        # plot should have 5 lines: 1 S, 3 I, 1 R
-        self.assertEqual(len(ax.lines), 5)
+        # plot should have 5 lines: 1 S, 3 I, 1 R, 1 D
+        self.assertEqual(len(ax.lines), 6)
         # all lines should be different
         for i in range(len(ax.lines)):
             for j in range(len(ax.lines)):
