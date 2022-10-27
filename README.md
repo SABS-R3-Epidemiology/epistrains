@@ -30,7 +30,8 @@ Instantiate the population class with a death rate = 0.000006, and initial popul
 ``` python
 population = Population(death=0.000006, size=150000, birth_function=birth_rate_function)
 ```
-Generate two strains to model. Strain I1 has a case fatality rate, CFR = 0.00007, recovery time = 7 days, and an R0 = 3.14. At the start of the simulation 150 individuals are infected with strain I1. Strain I2 has a case fatality rate, CFR = 0.001, recovery time = 8 days, and an R0 = 4.22. At the start of the simulation 10 individuals are infected with strain I2.
+Generate two strains to model. Strain I1 has a case fatality rate (CFR) = 0.00007, recovery time = 7 days, and an R0 = 3.14. At the start of the simulation 150 individuals are infected with strain I1. Strain I2 has a case fatality rate (CFR) = 0.001, recovery time = 8 days, and an R0 = 4.22. At the start of the simulation 10 individuals are infected with strain I2.
+R0 is the basic reproduction number and represents the average number of cases of an infectious disease that arise by transmission from a single infected individual.
 ```python
 I1 = Strain(CFR=0.00007, recovery_time=7, R0=3.14, infected=150)
 I2 = Strain(CFR=0.001, recovery_time=8, R0=4.22, infected=10)
