@@ -37,6 +37,13 @@ class PopulationTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             es.Population(0.5, 50.5)
 
+    def test_waning_error(self):
+        """
+        Tests type error rasied for waning input
+        """
+        with self.assertRaises(TypeError):
+            es.Population(0.2, 100, 5, 10)
+
     def test_make_br_error(self):
         """
         Tests type error raised for inputs to make_br()
