@@ -18,7 +18,7 @@ pip install .
 
 ## Usage
 
-Below is an example of how use the package to define, solve and visualise the multi-strain SIR model. This model uses the default birth rate and models two strains with different death, recovery, and transmission rates, along with a different number of individuals initially infected with each strain. This code can also be found in `example.py`
+Below is an example of how use the package to define, solve and visualise the multi-strain SIR model. This model uses the default birth rate and models two strains with different death, recovery, and transmission rates, along with a different number of individuals initially infected with each strain. This code can also be found in `example.py` along with additional information about the parameters which can also be found in the package documentation.
 
 Import the relevant classes and functions from the epistrains package.
 ```python
@@ -28,18 +28,16 @@ Generate a birth rate function with exponential form: $Nae^{-kN}$
 ``` python
 birth_rate_function = make_br(a=10.0, k=0.001)
 ```
-Instantiate the population class with a death rate = 0.000006, and initial population size = 150,000 and the exponential birth rate function defined above. Additional optional inputs are the rate of waning immunity and the percentage of the initial population who are immune at the start of the simulation.
+Instantiate the population class. Additional optional inputs are the rate of waning immunity and the percentage of the initial population who are immune at the start of the simulation.
 ``` python
 population = Population(death=0.000006, size=150000, birth_function=birth_rate_function)
 ```
-Generate two strains to model. Strain I1 has a case fatality rate (CFR) = 0.00007, recovery time = 7 days, and an R0 = 3.14. At the start of the simulation 150 individuals are infected with strain I1. Strain I2 has a case fatality rate (CFR) = 0.001, recovery time = 8 days, and an R0 = 4.22. At the start of the simulation 10 individuals are infected with strain I2.
-R0 is the basic reproduction number and represents the average number of cases of an infectious disease that arise by transmission from a single infected individual.
-Additionally, a time delay can be input to define the number of days after the start of the simulation at which each strain is introduced to the population.
+Generate two strains to model. Additionally, a time delay can be input to define the number of days after the start of the simulation at which each strain is introduced to the population.
 ```python
 I1 = Strain(CFR=0.00007, recovery_time=7, R0=3.14, infected=150)
 I2 = Strain(CFR=0.001, recovery_time=8, R0=4.22, infected=10)
 ```
-Instantiate the Solver class, providing it with the population structure and the two strains to be modelled, as well as the total time over which to run the simulation.
+Instantiate the Solver class.
 ```python
 model = Solver(pop=population, strains=[I1, I2], time=70)
 ```
@@ -85,5 +83,5 @@ where $a$ and $k$ are parameters relating to the exponential birth rate, $b$ is 
 
 ## Future Development
 
-An extension allowing multiple strains to be modelled with individual per strain immunity is underdevelopment.
+An extension allowing multiple strains to be modelled with individual per strain immunity is under development.
 We aim to allow a cross-immunity matrix to be defined which governs the probabilty of becoming infected by certain strain given a previous infection with another strain.
