@@ -190,9 +190,6 @@ class Solver:
         plt = self._make_plot()
         plt.savefig(save_path, dpi=300)
 
-
-##########################################
-
     def _make_death_plot(self):
         """Creates the plot of the number of individuals
         in each compartment over time
@@ -200,15 +197,19 @@ class Solver:
         if self.solution is None:
             raise ValueError("Must run s.solve() before plotting solutions")
 
-        plt.figure()
+        fig = plt.figure()
         output_solver = self.solution
 
         self._count_virus_death()
-        plt.plot(output_solver.t, self.deaths, label="D", color='brown')
+        plt.plot(output_solver.t, self.deaths, label="Daily", color='brown')
 
-        plt.legend()
         plt.ylabel("Average number of deaths per day")
         plt.xlabel("Time (days)")
+        ax = plt.gca()
+        ax2 = ax.twinx()
+        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color='b')
+        ax2.set_ylabel("Cumulative deaths", color="blue", fontsize=14)
+        fig.legend(bbox_to_anchor=(0.8, 0.5))
         plt.tight_layout()
 
         return plt
@@ -216,7 +217,6 @@ class Solver:
     def plot_death(self):
         """Function to show the compartments plot created by _make_plot
         """
-
         plt = self._make_death_plot()
         plt.show()
 
