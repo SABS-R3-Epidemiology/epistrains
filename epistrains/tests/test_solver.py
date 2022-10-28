@@ -3,6 +3,7 @@ from unittest.mock import patch
 import epistrains as es
 import pytest
 import numpy as np
+import matplotlib
 
 
 class SolverTest(unittest.TestCase):
@@ -68,6 +69,17 @@ class SolverTest(unittest.TestCase):
                 if i != j:
                     assert (not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
 
+    def test_death_plot(self):
+        s = es.Solver(strains=self.strains, pop=self.p)
+        with self.assertRaises(ValueError):
+            s._make_death_plot()
+        s.solve()
+        death_plot = s._make_death_plot()
+        # length of y-values should be equal
+        self.assertEqual(len(s.daily_cumulative_deaths), len(s.deaths))
+        # should return a figure
+        self.assertTrue(isinstance(death_plot, matplotlib.pyplot.Figure))
+
     def test_identical_strain(self):
         s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
         s.solve()
@@ -94,3 +106,17 @@ class SolverTest(unittest.TestCase):
         s.solve()
         s.save_compartments('test.png')
         save.assert_called_with('test.png', dpi=300)
+
+    @patch('matplotlib.pylab.show')
+    def test_plot_death(self, show):
+        s = es.Solver(strains=self.strains, pop=self.p)
+        s.solve()
+        s.plot_death()
+        assert show.called
+
+    @patch('matplotlib.pylab.savefig')
+    def test_save_death_plot(self, save):
+        s = es.Solver(strains=self.strains, pop=self.p)
+        s.solve()
+        s.save_death('test_death.png')
+        save.assert_called_with('test_death.png', dpi=300)
