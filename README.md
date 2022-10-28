@@ -13,7 +13,7 @@ A multi-strain SIR model
 ```
 git clone https://github.com/SABS-R3-Epidemiology/epistrains.git
 cd epistrains
-python install .
+pip install .
 ```
 
 ## Usage
