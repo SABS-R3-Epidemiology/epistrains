@@ -118,6 +118,9 @@ class Solver:
         )
         self.solution = sol
 
+        # determine number of deaths
+        self._count_virus_death()
+
     def _count_virus_death(self):
         """Counting the number of deaths caused by the viruses
         """
@@ -133,6 +136,8 @@ class Solver:
         # virus death would be shown on next timestamp
         virus_death = np.append(np.array(0), virus_death[:-1])
         self.deaths = virus_death
+        # calculate cumulative deaths per day
+        self.daily_cumulative_deaths = self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0]))
 
     def _make_plot(self):
         """Creates the plot of the number of individuals
@@ -164,7 +169,6 @@ class Solver:
                  label="R", color=colours_SRD[1])
 
         # Plot number of deaths due to virus(es)
-        self._count_virus_death()
         plt.plot(output_solver.t, self.deaths, label="D", color=colours_SRD[2])
 
         plt.legend()
@@ -198,20 +202,18 @@ class Solver:
         if self.solution is None:
             raise ValueError("Must run s.solve() before plotting deaths")
 
-        fig = plt.figure()
+        # get output solver and set colour parameter
         output_solver = self.solution
         colours_deaths = ["midnightblue", "brown"]
 
+        fig = plt.figure()
         # plot daily deaths
-        self._count_virus_death()
         plt.plot(output_solver.t, self.deaths, label="Daily", color=colours_deaths[1])
-
         plt.ylabel("Average number of deaths per day")
         plt.xlabel("Time (days)")
+        # plot cumulative deaths
         ax = plt.gca()
         ax2 = ax.twinx()
-        # plot cumulative deaths
-        self.daily_cumulative_deaths = self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0]))
         ax2.plot(output_solver.t, self.daily_cumulative_deaths, label="Cumulative", color=colours_deaths[0])
         ax2.set_ylabel("Cumulative deaths", color=colours_deaths[0], fontsize=14)
 
