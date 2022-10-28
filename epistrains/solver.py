@@ -189,3 +189,43 @@ class Solver:
 
         plt = self._make_plot()
         plt.savefig(save_path, dpi=300)
+
+
+##########################################
+
+    def _make_death_plot(self):
+        """Creates the plot of the number of individuals
+        in each compartment over time
+        """
+        if self.solution is None:
+            raise ValueError("Must run s.solve() before plotting solutions")
+
+        plt.figure()
+        output_solver = self.solution
+
+        self._count_virus_death()
+        plt.plot(output_solver.t, self.deaths, label="D", color='brown')
+
+        plt.legend()
+        plt.ylabel("Average number of deaths per day")
+        plt.xlabel("Time (days)")
+        plt.tight_layout()
+
+        return plt
+
+    def plot_death(self):
+        """Function to show the compartments plot created by _make_plot
+        """
+
+        plt = self._make_death_plot()
+        plt.show()
+
+    def save_death_compartments(self, save_path='epistrains_deaths_output.png'):
+        """Function to save the compartments plot created by _make_plot
+
+        :param save_path: gives path to which figure should be saved
+        :type save_path: string
+        """
+
+        plt = self._make_death_plot()
+        plt.savefig(save_path, dpi=300)
