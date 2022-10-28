@@ -178,7 +178,7 @@ class Solver:
         """Function to show the compartments plot created by _make_plot
         """
 
-        fig = self._make_plot()
+        self._make_plot()
         plt.show()
 
     def save_compartments(self, save_path='epistrains_output.png'):
@@ -188,7 +188,7 @@ class Solver:
         :type save_path: string
         """
 
-        fig = self._make_plot()
+        self._make_plot()
         plt.savefig(save_path, dpi=300)
 
     def _make_death_plot(self):
@@ -223,7 +223,7 @@ class Solver:
     def plot_death(self):
         """Function to show the compartments plot created by _make_plot
         """
-        fig = self._make_death_plot()
+        self._make_death_plot()
         plt.show()
 
     def save_death(self, save_path='epistrains_deaths_output.png'):
@@ -233,5 +233,5 @@ class Solver:
         :type save_path: string
         """
 
-        fig = self._make_death_plot()
+        self._make_death_plot()
         plt.savefig(save_path, dpi=300)

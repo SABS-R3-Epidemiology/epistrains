@@ -68,7 +68,7 @@ class SolverTest(unittest.TestCase):
             for j in range(len(ax.lines)):
                 if i != j:
                     assert (not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
-    
+
     def test_death_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)
         with self.assertRaises(ValueError):

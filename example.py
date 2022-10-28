@@ -23,6 +23,6 @@ model = Solver(pop=population, strains=[I1, I2], time=70)
 model.solve()
 
 # Plot the results to be displayed, and not saved.
-#model.plot_compartments()
+# model.plot_compartments()
 model.save_compartments('epistrains_example.png')
 model.save_death('epistrains_death_example.png')
