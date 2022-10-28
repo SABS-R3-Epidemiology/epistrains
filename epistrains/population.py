@@ -3,11 +3,11 @@ import math
 
 class Population:
     """
-    Population based parameters for the construction of birth rate and death rate terms
+    Population based parameters for construction of birth and death rate terms
     Parameters
 
     :param death: constant death rate
-    :type death: float  
+    :type death: float
     :param size: initial population size
     :type size: int
     :param birth_function: function to govern birth rate
@@ -19,8 +19,10 @@ class Population:
     :type waning: float
     """
 
-    def __init__(self, death: float, size: int, birth_function=None, waning=0.0):
-        """Initialize the class and take general population parameters relating to birth and death rates"""
+    def __init__(self, death: float, size: int, birth_function=None,
+                 waning=0.0):
+        """Initialize the class and take general population parameters
+           relating to birth and death rates"""
         self.death_rate = death
         self.init_size = size
         self.birth_rate = birth_function
@@ -51,7 +53,7 @@ def make_br(a: float, k: float):
     def br(N: int):
         """Generate exponential birth rate function
         Parameters
-        
+
         :param N: current population size
         :type N: int
         """

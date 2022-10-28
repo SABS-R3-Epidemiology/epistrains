@@ -45,10 +45,12 @@ class SolverTest(unittest.TestCase):
             s._count_virus_death()
         s.solve()
         s._count_virus_death()
-        #check the length of the new death array
+        # check the length of the new death array
         self.assertEqual(len(s.deaths), len(s.solution.t))
-        #check number deaths smaller than number of infected (at previous time step)
-        assert(all(s.deaths[1:] <= (s.solution.y[1,:] + s.solution.y[2,:] + s.solution.y[3,:])[:-1]))
+        # check number deaths smaller than number of infected
+        # (at previous time step)
+        assert (all(s.deaths[1:] <= (s.solution.y[1, :] + s.solution.y[2, :]
+                + s.solution.y[3, :])[:-1]))
 
     def test_make_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)
@@ -63,7 +65,8 @@ class SolverTest(unittest.TestCase):
         for i in range(len(ax.lines)):
             for j in range(len(ax.lines)):
                 if i != j:
-                    assert(not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+                    assert (not all(ax.lines[i].get_ydata() ==
+                            ax.lines[j].get_ydata()))
 
     def test_identical_strain(self):
         s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
@@ -71,7 +74,7 @@ class SolverTest(unittest.TestCase):
         plt = s._make_plot()
         ax = plt.gca()
         # identical strains should give identical lines
-        assert(all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
+        assert (all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):
