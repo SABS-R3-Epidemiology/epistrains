@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 import epistrains as es
 import pytest
+import numpy as np
 
 
 class SolverTest(unittest.TestCase):
@@ -16,7 +17,9 @@ class SolverTest(unittest.TestCase):
         self.strains = [s1, s2, s3]
         br = es.make_br(2.0, 3.0)
         p = es.Population(0.5, 100, br)
+        p2 = es.Population(0.5, 100, br, immunity=50.0)
         self.p = p
+        self.p2 = p2
 
     def test_create(self):
         """
@@ -63,7 +66,8 @@ class SolverTest(unittest.TestCase):
         for i in range(len(ax.lines)):
             for j in range(len(ax.lines)):
                 if i != j:
-                    assert(not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+                    assert (not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+
 
     def test_identical_strain(self):
         s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
@@ -71,7 +75,12 @@ class SolverTest(unittest.TestCase):
         plt = s._make_plot()
         ax = plt.gca()
         # identical strains should give identical lines
-        assert(all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
+        assert (all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
+
+    def test_takes_immunity(self):
+        s = es.Solver(strains=self.strains, pop=self.p2)
+        s.solve()
+        assert np.array_equal(s.solution.y[:, 0], [(100-16-50), 10, 5, 1, 50.0])
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):
