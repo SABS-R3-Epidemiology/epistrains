@@ -200,15 +200,17 @@ class Solver:
         fig = plt.figure()
         output_solver = self.solution
 
+        colours_Deaths = ["midnightblue", "brown"]
+
         self._count_virus_death()
-        plt.plot(output_solver.t, self.deaths, label="Daily", color='brown')
+        plt.plot(output_solver.t, self.deaths, label="Daily", color=colours_Deaths[1])
 
         plt.ylabel("Average number of deaths per day")
         plt.xlabel("Time (days)")
         ax = plt.gca()
         ax2 = ax.twinx()
-        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color='midnightblue')
-        ax2.set_ylabel("Cumulative deaths", color="midnightblue", fontsize=14)
+        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color=colours_Deaths[0])
+        ax2.set_ylabel("Cumulative deaths", color=colours_Deaths[0], fontsize=14)
         fig.legend(bbox_to_anchor=(0.8, 0.5))
         plt.tight_layout()
 
