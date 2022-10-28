@@ -25,4 +25,4 @@ model.solve()
 # Plot the results to be displayed, and not saved.
 #model.plot_compartments()
 model.save_compartments('epistrains_example.png')
-model.save_death_compartments('epistrains_death_example.png')
+model.save_death('epistrains_death_example.png')

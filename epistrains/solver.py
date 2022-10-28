@@ -29,6 +29,7 @@ class Solver:
         self.strains = strains
         self.solution = None
         self.deaths = None
+        self.daily_cumulative_deaths = None
         self.n_sus = self.pop.init_size - sum(strain.infected for strain in self.strains) - self.pop.current_immune
         # should have at least one strain
         if self.n == 0:
@@ -140,7 +141,7 @@ class Solver:
         if self.solution is None:
             raise ValueError("Must run s.solve() before plotting solutions")
 
-        plt.figure()
+        fig = plt.figure()
         output_solver = self.solution
 
         # Initialise colours and number of strains
@@ -171,13 +172,13 @@ class Solver:
         plt.xlabel("Time (days)")
         plt.tight_layout()
 
-        return plt
+        return fig
 
     def plot_compartments(self):
         """Function to show the compartments plot created by _make_plot
         """
 
-        plt = self._make_plot()
+        fig = self._make_plot()
         plt.show()
 
     def save_compartments(self, save_path='epistrains_output.png'):
@@ -187,7 +188,7 @@ class Solver:
         :type save_path: string
         """
 
-        plt = self._make_plot()
+        fig = self._make_plot()
         plt.savefig(save_path, dpi=300)
 
     def _make_death_plot(self):
@@ -195,7 +196,7 @@ class Solver:
         in each compartment over time
         """
         if self.solution is None:
-            raise ValueError("Must run s.solve() before plotting solutions")
+            raise ValueError("Must run s.solve() before plotting deaths")
 
         fig = plt.figure()
         output_solver = self.solution
@@ -210,26 +211,27 @@ class Solver:
         ax = plt.gca()
         ax2 = ax.twinx()
         # plot cumulative deaths
-        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color=colours_deaths[0])
+        self.daily_cumulative_deaths = self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0]))
+        ax2.plot(output_solver.t, self.daily_cumulative_deaths, label="Cumulative", color=colours_deaths[0])
         ax2.set_ylabel("Cumulative deaths", color=colours_deaths[0], fontsize=14)
 
         fig.legend(bbox_to_anchor=(0.8, 0.5))
         plt.tight_layout()
 
-        return plt
+        return fig
 
     def plot_death(self):
         """Function to show the compartments plot created by _make_plot
         """
-        plt = self._make_death_plot()
+        fig = self._make_death_plot()
         plt.show()
 
-    def save_death_compartments(self, save_path='epistrains_deaths_output.png'):
+    def save_death(self, save_path='epistrains_deaths_output.png'):
         """Function to save the compartments plot created by _make_plot
 
         :param save_path: gives path to which figure should be saved
         :type save_path: string
         """
 
-        plt = self._make_death_plot()
+        fig = self._make_death_plot()
         plt.savefig(save_path, dpi=300)
