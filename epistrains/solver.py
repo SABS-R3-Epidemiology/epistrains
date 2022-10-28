@@ -207,8 +207,8 @@ class Solver:
         plt.xlabel("Time (days)")
         ax = plt.gca()
         ax2 = ax.twinx()
-        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color='b')
-        ax2.set_ylabel("Cumulative deaths", color="blue", fontsize=14)
+        ax2.plot(output_solver.t, self.deaths.cumsum()/(len(output_solver.t)/(output_solver.t[-1]-output_solver.t[0])), label="Cumulative", color='midnightblue')
+        ax2.set_ylabel("Cumulative deaths", color="midnightblue", fontsize=14)
         fig.legend(bbox_to_anchor=(0.8, 0.5))
         plt.tight_layout()
 
