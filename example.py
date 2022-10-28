@@ -13,7 +13,7 @@ population = Population(death=0.000006, size=150000, birth_function=birth_rate_f
 # Strain I2 has a case fatality rate (CFR) = 0.001, recovery time = 8 days, and an R0 = 4.22.
 # At the start of the simulation 10 individuals are infected with strain I2.
 I1 = Strain(CFR=0.00007, recovery_time=7, R0=3.14, infected=150)
-I2 = Strain(CFR=0.001, recovery_time=8, R0=4.22, infected=10)
+I2 = Strain(CFR=0.001, recovery_time=8, R0=4.22, infected=10, delay=2)
 
 # Instantiate the Solver class, providing it with the population structure and the two strains to be modelled,
 # as well as the total time over which to run the simulation.

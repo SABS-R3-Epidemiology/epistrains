@@ -52,7 +52,7 @@ class SolverTest(unittest.TestCase):
         # check the length of the new death array
         self.assertEqual(len(s.deaths), len(s.solution.t))
         # check number deaths smaller than number of infected (at previous time step)
-        assert (all(s.deaths[1:] <= (s.solution.y[1, :] + s.solution.y[2, :] + s.solution.y[3, :])[:-1]))
+        assert (all(s.deaths[1:] <= ((s.solution.y[1, :] + s.solution.y[2, :] + s.solution.y[3, :])[:-1])+0.0001))
 
     def test_make_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)
@@ -91,7 +91,7 @@ class SolverTest(unittest.TestCase):
     def test_takes_immunity(self):
         s = es.Solver(strains=self.strains, pop=self.p2)
         s.solve()
-        assert np.array_equal(s.solution.y[:, 0], [(100-16-50), 10, 5, 1, 50.0])
+        assert (all(s.solution.y[:, 0] == [(100-16-50), 10, 5, 1, 50.0]))
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):

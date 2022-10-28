@@ -6,6 +6,12 @@ from epistrains.strain import Strain
 import matplotlib.pylab as plt
 
 
+class Solution:
+    def __init__(self, n_comps):
+        self.t = np.array([])
+        self.y = np.array([[] for _ in range(n_comps)])
+
+
 class Solver:
     """ Solver based parameters for the construction of ODE
     right hand equations. Calculate ODE solution and plot
@@ -108,15 +114,31 @@ class Solver:
     def solve(self):
         """Solve the differential equations
         """
-        t_eval = np.linspace(0, self.time, self.time*10)
-        y0 = np.array([self.n_sus] + [strain.infected for strain in self.strains] + [self.recovered])
-        sol = scipy.integrate.solve_ivp(
-            fun=lambda t, y: self._rhs(y),
-            t_span=[t_eval[0], t_eval[-1]],
-            y0=y0,
-            t_eval=t_eval,
-        )
-        self.solution = sol
+        delays = set(strain.delay for strain in self.strains)
+        delays.add(0)
+        delays.add(self.time)
+        time_pts = sorted(list(delays))
+        y0 = np.array([self.n_sus] + [0.0 for _ in self.strains] + [self.recovered])
+        full_sol = Solution(len(y0))
+        # To add the people infected with each strain at a specified time,
+        # we pause the model at each delay
+        for i in range(len(time_pts) - 1):
+            start = time_pts[i]
+            end = time_pts[i+1]
+            t_eval = np.linspace(start, end, int((end-start)*10))
+            for j, strain in enumerate(self.strains):
+                if strain.delay == start:
+                    y0[j+1] = strain.infected
+            sol = scipy.integrate.solve_ivp(
+                fun=lambda t, y: self._rhs(y),
+                t_span=[t_eval[0], t_eval[-1]],
+                y0=y0,
+                t_eval=t_eval,
+            )
+            full_sol.t = np.concatenate((full_sol.t, sol.t))
+            full_sol.y = np.concatenate((full_sol.y, sol.y), axis=1)
+            y0 = sol.y[:, -1]
+        self.solution = full_sol
 
         # determine number of deaths
         self._count_virus_death()
