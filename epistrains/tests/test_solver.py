@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 import epistrains as es
 import pytest
+import numpy as np
 
 
 class SolverTest(unittest.TestCase):
@@ -16,7 +17,9 @@ class SolverTest(unittest.TestCase):
         self.strains = [s1, s2, s3]
         br = es.make_br(2.0, 3.0)
         p = es.Population(0.5, 100, br)
+        p2 = es.Population(0.5, 100, br, immunity=50.0)
         self.p = p
+        self.p2 = p2
 
     def test_create(self):
         """
@@ -39,6 +42,17 @@ class SolverTest(unittest.TestCase):
         s.solve()
         self.assertEqual(5, len(s.solution.y))
 
+    def test_count_virus_death(self):
+        s = es.Solver(strains=self.strains, pop=self.p)
+        with self.assertRaises(ValueError):
+            s._count_virus_death()
+        s.solve()
+        s._count_virus_death()
+        # check the length of the new death array
+        self.assertEqual(len(s.deaths), len(s.solution.t))
+        # check number deaths smaller than number of infected (at previous time step)
+        assert (all(s.deaths[1:] <= (s.solution.y[1, :] + s.solution.y[2, :] + s.solution.y[3, :])[:-1]))
+
     def test_make_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)
         with self.assertRaises(ValueError):
@@ -46,13 +60,14 @@ class SolverTest(unittest.TestCase):
         s.solve()
         plt = s._make_plot()
         ax = plt.gca()
-        # plot should have 5 lines: 1 S, 3 I, 1 R
-        self.assertEqual(len(ax.lines), 5)
+        # plot should have 5 lines: 1 S, 3 I, 1 R, 1 D
+        self.assertEqual(len(ax.lines), 6)
         # all lines should be different
         for i in range(len(ax.lines)):
             for j in range(len(ax.lines)):
                 if i != j:
-                    assert(not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+                    assert (not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
+
 
     def test_identical_strain(self):
         s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
@@ -60,7 +75,12 @@ class SolverTest(unittest.TestCase):
         plt = s._make_plot()
         ax = plt.gca()
         # identical strains should give identical lines
-        assert(all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
+        assert (all(ax.lines[1].get_ydata() == ax.lines[2].get_ydata()))
+
+    def test_takes_immunity(self):
+        s = es.Solver(strains=self.strains, pop=self.p2)
+        s.solve()
+        assert np.array_equal(s.solution.y[:, 0], [(100-16-50), 10, 5, 1, 50.0])
 
     @patch('matplotlib.pylab.show')
     def test_plot(self, show):

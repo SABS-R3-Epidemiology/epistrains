@@ -12,9 +12,9 @@ class StrainTest(unittest.TestCase):
         Tests Strain creation.
         """
         s = es.Strain(0.1, 0.2, 0.3, 10)
-        self.assertEqual(s.alpha, 0.1)
-        self.assertEqual(s.nu, 0.2)
-        self.assertEqual(s.beta, 0.3)
+        self.assertEqual(s.alpha, 0.5)
+        self.assertEqual(s.nu, 5.0)
+        self.assertEqual(s.beta_unscaled, 1.65)
         self.assertEqual(s.infected, 10)
 
         with pytest.raises(TypeError):
