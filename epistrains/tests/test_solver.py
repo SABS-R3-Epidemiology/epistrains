@@ -68,6 +68,7 @@ class SolverTest(unittest.TestCase):
                 if i != j:
                     assert (not all(ax.lines[i].get_ydata() == ax.lines[j].get_ydata()))
 
+
     def test_identical_strain(self):
         s = es.Solver(strains=[self.strains[0], self.strains[0]], pop=self.p)
         s.solve()

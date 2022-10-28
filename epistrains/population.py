@@ -3,7 +3,7 @@ import math
 
 class Population:
     """
-    Population based parameters for the construction of birth rate and death rate terms
+    Population based parameters for construction of birth and death rate terms
     Parameters
 
     :param death: constant death rate
