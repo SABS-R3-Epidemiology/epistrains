@@ -12,7 +12,7 @@ class SolverTest(unittest.TestCase):
     def setUp(self):
         s1 = es.Strain(0.1, 0.2, 0.3, 10)
         s2 = es.Strain(0.1, 0.2, 0.6, 5)
-        s3 = es.Strain(0.1, 0.2, 0.6, 1)
+        s3 = es.Strain(0.1, 0.2, 0.6, 1, delay=10)
         self.strains = [s1, s2, s3]
         br = es.make_br(2.0, 3.0)
         p = es.Population(0.5, 100, br)
@@ -45,10 +45,10 @@ class SolverTest(unittest.TestCase):
             s._count_virus_death()
         s.solve()
         s._count_virus_death()
-        #check the length of the new death array
+        # check the length of the new death array
         self.assertEqual(len(s.deaths), len(s.solution.t))
-        #check number deaths smaller than number of infected (at previous time step)
-        assert(all(s.deaths[1:] <= (s.solution.y[1,:] + s.solution.y[2,:] + s.solution.y[3,:])[:-1]))
+        # check number deaths smaller than number of infected (at previous time step)
+        assert(all(s.deaths[1:] <= (s.solution.y[1, :] + s.solution.y[2, :] + s.solution.y[3, :])[:-1]))
 
     def test_make_plot(self):
         s = es.Solver(strains=self.strains, pop=self.p)

@@ -7,7 +7,7 @@ class Population:
     Parameters
 
     :param death: constant death rate
-    :type death: float  
+    :type death: float
     :param size: initial population size
     :type size: int
     :param birth_function: function to govern birth rate
@@ -51,7 +51,7 @@ def make_br(a: float, k: float):
     def br(N: int):
         """Generate exponential birth rate function
         Parameters
-        
+
         :param N: current population size
         :type N: int
         """
